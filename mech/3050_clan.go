@@ -5,7 +5,8 @@ import "github.com/krelinga/bg-data-go/equip"
 var madCatBase = New(
 	WithName("Mad Cat"),
 	WithClanName("Timber Wolf"),
-	WithTwoLegs(75),
+	WithWeight(75),
+	WithTwoLegs(),
 	WithEngine(EngineClanXL, 5),
 	WithArmArmor(24),
 	WithLegArmor(32),

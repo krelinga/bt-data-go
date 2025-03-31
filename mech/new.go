@@ -27,16 +27,20 @@ func WithClanName(clanName string) Option {
 	}
 }
 
-func WithTwoLegs(weight int) Option {
+func WithWeight(weight int) Option {
 	return func(m *Mech) {
 		m.Weight = weight
+	}
+}
+
+func WithTwoLegs() Option {
+	return func(m *Mech) {
 		structureTable(m, false)
 	}
 }
 
-func WithFourLegs(weight int) Option {
+func WithFourLegs() Option {
 	return func(m *Mech) {
-		m.Weight = weight
 		structureTable(m, true)
 	}
 }
