@@ -30,137 +30,113 @@ func WithClanName(clanName string) Option {
 func WithWeight(weight int) Option {
 	return func(m *Mech) {
 		m.Weight = weight
-	}
-}
+		m.Structure = make(map[Loc]int)
+		m.Structure[LocHead] = 3
 
-func WithTwoLegs() Option {
-	return func(m *Mech) {
-		structureTable(m, false)
-	}
-}
-
-func WithFourLegs() Option {
-	return func(m *Mech) {
-		structureTable(m, true)
-	}
-}
-
-func structureTable(m *Mech, quad bool) {
-	m.Structure = make(map[Loc]int)
-	m.Structure[LocHead] = 3
-
-	ct := func(x int) {
-		m.Structure[LocCenterTorso] = x
-	}
-	st := func(x int) {
-		m.Structure[LocLeftTorso] = x
-		m.Structure[LocRightTorso] = x
-	}
-	a := func(x int) {
-		if !quad {
+		ct := func(x int) {
+			m.Structure[LocCenterTorso] = x
+		}
+		st := func(x int) {
+			m.Structure[LocLeftTorso] = x
+			m.Structure[LocRightTorso] = x
+		}
+		a := func(x int) {
 			m.Structure[LocLeftArm] = x
 			m.Structure[LocRightArm] = x
 		}
-	}
-	l := func(x int) {
-		if quad {
-			m.Structure[LocLeftFrontLeg] = x
-			m.Structure[LocRightFrontLeg] = x
-			m.Structure[LocLeftRearLeg] = x
-			m.Structure[LocRightRearLeg] = x
-		} else {
+		l := func(x int) {
 			m.Structure[LocLeftLeg] = x
 			m.Structure[LocRightLeg] = x
 		}
-	}
-	switch m.Weight {
-	case 20:
-		ct(6)
-		st(5)
-		a(3)
-		l(4)
-	case 25:
-		ct(8)
-		st(6)
-		a(4)
-		l(6)
-	case 30:
-		ct(10)
-		st(7)
-		a(5)
-		l(7)
-	case 35:
-		ct(11)
-		st(8)
-		a(6)
-		l(8)
-	case 40:
-		ct(12)
-		st(10)
-		a(6)
-		l(10)
-	case 45:
-		ct(14)
-		st(11)
-		a(7)
-		l(11)
-	case 50:
-		ct(16)
-		st(12)
-		a(8)
-		l(12)
-	case 55:
-		ct(18)
-		st(13)
-		a(9)
-		l(13)
-	case 60:
-		ct(20)
-		st(14)
-		a(10)
-		l(14)
-	case 65:
-		ct(21)
-		st(15)
-		a(10)
-		l(15)
-	case 70:
-		ct(22)
-		st(15)
-		a(11)
-		l(15)
-	case 75:
-		ct(23)
-		st(16)
-		a(12)
-		l(16)
-	case 80:
-		ct(25)
-		st(17)
-		a(13)
-		l(17)
-	case 85:
-		ct(27)
-		st(18)
-		a(14)
-		l(18)
-	case 90:
-		ct(29)
-		st(19)
-		a(15)
-		l(19)
-	case 95:
-		ct(30)
-		st(20)
-		a(16)
-		l(20)
-	case 100:
-		ct(31)
-		st(21)
-		a(17)
-		l(21)
-	default:
-		panic("weight not supported")
+		switch m.Weight {
+		case 20:
+			ct(6)
+			st(5)
+			a(3)
+			l(4)
+		case 25:
+			ct(8)
+			st(6)
+			a(4)
+			l(6)
+		case 30:
+			ct(10)
+			st(7)
+			a(5)
+			l(7)
+		case 35:
+			ct(11)
+			st(8)
+			a(6)
+			l(8)
+		case 40:
+			ct(12)
+			st(10)
+			a(6)
+			l(10)
+		case 45:
+			ct(14)
+			st(11)
+			a(7)
+			l(11)
+		case 50:
+			ct(16)
+			st(12)
+			a(8)
+			l(12)
+		case 55:
+			ct(18)
+			st(13)
+			a(9)
+			l(13)
+		case 60:
+			ct(20)
+			st(14)
+			a(10)
+			l(14)
+		case 65:
+			ct(21)
+			st(15)
+			a(10)
+			l(15)
+		case 70:
+			ct(22)
+			st(15)
+			a(11)
+			l(15)
+		case 75:
+			ct(23)
+			st(16)
+			a(12)
+			l(16)
+		case 80:
+			ct(25)
+			st(17)
+			a(13)
+			l(17)
+		case 85:
+			ct(27)
+			st(18)
+			a(14)
+			l(18)
+		case 90:
+			ct(29)
+			st(19)
+			a(15)
+			l(19)
+		case 95:
+			ct(30)
+			st(20)
+			a(16)
+			l(20)
+		case 100:
+			ct(31)
+			st(21)
+			a(17)
+			l(21)
+		default:
+			panic("weight not supported")
+		}
 	}
 }
 

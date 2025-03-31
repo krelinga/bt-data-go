@@ -6,7 +6,6 @@ var madCatBase = New(
 	WithName("Mad Cat"),
 	WithClanName("Timber Wolf"),
 	WithWeight(75),
-	WithTwoLegs(),
 	WithEngine(EngineClanXL, 5),
 	WithArmor(Arms, 24),
 	WithArmor(BipedLegs, 32),

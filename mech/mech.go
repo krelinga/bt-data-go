@@ -48,10 +48,6 @@ const (
 	LocRightArm
 	LocLeftLeg
 	LocRightLeg
-	LocLeftFrontLeg
-	LocRightFrontLeg
-	LocLeftRearLeg
-	LocRightRearLeg
 	LocMax
 )
 
