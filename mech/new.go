@@ -2,11 +2,11 @@ package mech
 
 import "github.com/krelinga/bg-data-go/equip"
 
-func New(opts... Option) Mech {
+func New(opts ...Option) Mech {
 	return Extend(Mech{}, opts...)
 }
 
-func Extend(base Mech, opts... Option) Mech {
+func Extend(base Mech, opts ...Option) Mech {
 	for _, opt := range opts {
 		opt(&base)
 	}
@@ -164,102 +164,34 @@ func structureTable(m *Mech, quad bool) {
 	}
 }
 
-func WithArmArmor(x int) Option {
+func WithEngine(e Engine, walkSpeed int) Option {
 	return func(m *Mech) {
-		m.Armor[LocLeftArm] = x
-		m.Armor[LocRightArm] = x
-	}
-}
-
-func WithLegArmor(x int) Option {
-	return func(m *Mech) {
-		m.Armor[LocLeftLeg] = x
-		m.Armor[LocRightLeg] = x
-	}
-}
-
-func WithSideTorsoArmor(f, r int) Option {
-	return func(m *Mech) {
-		m.Armor[LocLeftTorso] = f
-		m.Armor[LocRightTorso] = f
-		m.Armor[LocLeftTorsoRear] = r
-		m.Armor[LocRightTorsoRear] = r
-	}
-}
-
-func WithCenterTorsoArmor(f, r int) Option {
-	return func(m *Mech) {
-		m.Armor[LocCenterTorso] = f
-		m.Armor[LocCenterTorsoRear] = r
-	}
-}
-
-func WithHeadArmor(x int) Option {
-	return func(m *Mech) {
-		m.Armor[LocHead] = x
-	}
-}
-
-func WithFrontLegArmor(x int) Option {
-	return func(m *Mech) {
-		m.Armor[LocLeftFrontLeg] = x
-		m.Armor[LocRightFrontLeg] = x
-	}
-}
-
-func WithRearLegArmor(x int) Option {
-	return func(m *Mech) {
-		m.Armor[LocLeftRearLeg] = x
-		m.Armor[LocRightRearLeg] = x
-	}
-}
-
-func WithEngine(engine Engine, walkSpeed int) Option {
-	return func(m *Mech) {
-		m.Engine = engine
+		m.Engine = e
 		m.WalkSpeed = walkSpeed
 	}
 }
 
-func WithMount(equip equip.Equip, loc Loc) Option {
-	return WithMountN(1, equip, loc)
-}
-
-func WithMountN(n int, equip equip.Equip, loc Loc) Option {
+func WithArmor(locs LocLister, armor int) Option {
 	return func(m *Mech) {
-		for range n {
-			mount(m, equip, loc)
+		for loc := range locs.LocList() {
+			m.Armor[loc] = armor
 		}
 	}
 }
 
-func WithSplitMount(equip equip.Equip, locSizes ...LocSize) Option {
+func WithMount(equips equip.Lister, locs LocLister) Option {
 	return func(m *Mech) {
-		m.SplitMounts = append(m.SplitMounts, SplitMount{Equip: equip, LocSizes: locSizes})
+		for loc := range locs.LocList() {
+			for equip := range equips.List() {
+				m.Mounts = append(m.Mounts, Mount{equip, loc})
+			}
+		}
 	}
 }
 
-func WithArmMount(equip equip.Equip) Option {
+func WithSplitMount(e equip.Equip, locSizes ...LocSize) Option {
 	return func(m *Mech) {
-		mount(m, equip, LocLeftArm, LocRightArm)
-	}
-}
-
-func WithSideTorsoMount(equip equip.Equip) Option {
-	return func(m *Mech) {
-		mount(m, equip, LocLeftTorso, LocRightTorso)
-	}
-}
-
-func WithLegMount(equip equip.Equip) Option {
-	return func(m *Mech) {
-		mount(m, equip, LocLeftLeg, LocRightLeg)
-	}
-}
-
-func mount(m *Mech, equip equip.Equip, loc... Loc) {
-	for _, l := range loc {
-		m.Mounts = append(m.Mounts, Mount{Equip: equip, Loc: l})
+		m.SplitMounts = append(m.SplitMounts, SplitMount{e, locSizes})
 	}
 }
 
